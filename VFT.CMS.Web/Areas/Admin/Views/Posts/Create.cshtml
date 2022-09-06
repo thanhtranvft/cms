@@ -1,0 +1,135 @@
+﻿@using VFT.CMS.Application.PostsNews.Dto;
+@model PostsCreateDto
+@{
+    ViewData["Title"] = "Thêm mới tin tức";
+}
+
+@await Html.PartialAsync("/Areas/Admin/Views/Shared/Form/_FormHeader.cshtml", new FormHeaderViewModel(ViewData["Title"].ToString(), false, true))
+
+<section class="content">
+    <div class="container-fluid">
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <form method="post" asp-area="Admin" asp-action="Create" asp-antiforgery="true" class="form-horizontal">
+            @*nav-tabs*@
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" role="tab" href="#general">Thông tin chính</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" role="tab" href="#general-detail">Thông tin liên quan</a>
+                </li>
+            </ul>
+            @*end nav-tabs*@
+            @*tab-content*@
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="general">
+                    <div class="row mt-2">
+                        <div class="col-md">
+                            <label asp-for="Title" class="col-md control-label"></label>
+                            <div class="col-md">
+                                <textarea asp-for="Title" class="form-control"></textarea>
+                                <span asp-validation-for="Title" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-md">
+                            <label asp-for="Excerpt" class="col-md control-label"></label>
+                            <div class="col-md">
+                                <textarea asp-for="Excerpt" class="form-control"></textarea>
+                                <span asp-validation-for="Excerpt" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-md">
+                            <label asp-for="Content" class="col-md control-label"></label>
+                            <div class="col-md">
+                                @*<input asp-for="Content" class="form-control" />*@
+                                <textarea asp-for="Content" class="form-control"></textarea>
+                                <span asp-validation-for="Content" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-md-4">
+                            <label asp-for="CategoryId" class="col-md control-label"></label>
+                            <div class="col-md">
+                                <select asp-items="@ViewBag.Categories" name="CategoryId" class="form-control" required>
+                                    <option selected value="">--Chọn danh mục--</option>
+                                </select>
+                                <span asp-validation-for="CategoryId" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="ExcerptImage" class="col-md control-label"></label>
+                            <div class="col-md">
+                                <input asp-for="ExcerptImage" class="form-control" />
+                                <span asp-validation-for="ExcerptImage" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="LinkTo" class="col-md control-label"></label>
+                            <div class="col-md">
+                                <input asp-for="LinkTo" class="form-control" />
+                                <span asp-validation-for="LinkTo" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-md-4">
+                            <label asp-for="FromDate" class="col-md control-label"></label>
+                            <div class="col-md">
+                                <input asp-for="FromDate" class="form-control" value="@DateTime.Now.Date" />
+                                <span asp-validation-for="FromDate" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="ToDate" class="col-md control-label"></label>
+                            <div class="col-md">
+                                <input asp-for="ToDate" class="form-control" value="@DateTime.Now.Date.AddMonths(1)" />
+                                <span asp-validation-for="ToDate" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <label asp-for="Status" class="col-md control-label"></label>
+                            <div class="col-md">
+                                <select asp-for="Status" asp-items="Html.GetEnumSelectList<StatusActivity>()" name="Status" class="form-control" required>
+                                    <option selected value="">--Chọn trạng thái--</option>
+                                </select>
+                                <span asp-validation-for="Status" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="general-detail">
+                    <div class="row mt-2">
+                        <div class="col-md-6">
+                            <label asp-for="MetaKey" class="col-md control-label"></label>
+                            <div class="col-md">
+                                <input asp-for="MetaKey" class="form-control" />
+                                <span asp-validation-for="MetaKey" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="MetaValue" class="col-md control-label"></label>
+                            <div class="col-md">
+                                <input asp-for="MetaValue" class="form-control" />
+                                <span asp-validation-for="MetaValue" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            @await Html.PartialAsync("/Areas/Admin/Views/Shared/Form/_FormWithSave.cshtml")
+
+        </form>
+    </div>
+</section>
+
+<script>
+    CKEDITOR.replace("Content");
+</script>

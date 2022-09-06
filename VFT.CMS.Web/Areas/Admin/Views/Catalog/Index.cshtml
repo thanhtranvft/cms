@@ -1,0 +1,68 @@
+﻿@using VFT.CMS.Application.Categories.Dto;
+@using VFT.CMS.Application.Common.Dto;
+@model PagedResponseDto<List<CategoryDto>>
+@{
+    ViewData["Title"] = "Danh mục";
+}
+
+@await Html.PartialAsync("/Areas/Admin/Views/Shared/Form/_FormHeader.cshtml", new FormHeaderViewModel(ViewData["Title"].ToString(), true, false))
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="categoryTable" class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Id</th>
+                                        <th>Tiêu đề</th>
+                                        <th>Thuộc danh mục</th>
+                                        <th>Trạng thái</th>
+                                        <th>Ngày tạo</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model.Items.Count() == 0)
+                                    {
+                                        <tr>
+                                            <td colspan="5" class="text-center">
+                                                Không có dữ liệu
+                                            </td>
+                                        </tr>
+                                    }
+                                    else
+                                    {
+                                        foreach (var obj in Model.Items)
+                                        {
+                                            <tr>
+                                                <td>@obj.Id</td>
+                                                <td>@obj.Title</td>
+                                                <td>@obj.ParentCategoryName</td>
+                                                <td>@obj.StatusString</td>
+                                                <td>@obj.CreatedTime</td>
+                                                <td>
+                                                    <a class="btn btn-success" asp-area="Admin" asp-controller="Category" asp-action="Edit" asp-route-id="@obj.Id">@VFTResource.Button_Edit</a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    $(document).ready(function () {
+        InitDataTable('#categoryTable');
+    });
+</script>

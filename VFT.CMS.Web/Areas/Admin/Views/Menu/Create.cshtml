@@ -1,0 +1,53 @@
+﻿@using VFT.CMS.Application.Menus.Dto;
+@model MenuCreateDto
+@{
+    ViewData["Title"] = "Thêm mới Menu";
+}
+
+@await Html.PartialAsync("/Areas/Admin/Views/Shared/Form/_FormHeader.cshtml", new FormHeaderViewModel(ViewData["Title"].ToString(), false, true))
+
+<section class="content">
+    <div class="container-fluid">
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <form method="post" asp-area="Admin" asp-action="Create" asp-antiforgery="true" class="form-horizontal">
+            <div class="row mt-2">
+                <div class="col-md-6">
+                    <label asp-for="Title" class="col-md-6 control-label"></label>
+                    <div class="col-md">
+                        <input asp-for="Title" class="form-control" />
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="Router" class="col-md-6 control-label"></label>
+                    <div class="col-md">
+                        <input asp-for="Router" class="form-control" />
+                        <span asp-validation-for="Router" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-md-6">
+                    <label asp-for="DisplayOrder" class="col-md-6 control-label"></label>
+                    <div class="col-md">
+                        <input asp-for="DisplayOrder" class="form-control" value="0"/>
+                        <span asp-validation-for="DisplayOrder" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="Status" class="col-md-3 control-label"></label>
+                    <div class="col-md">
+                        <select asp-for="Status" asp-items="Html.GetEnumSelectList<StatusActivity>()" name="Status" class="form-control" required>
+                            <option selected value="">--Chọn trạng thái--</option>
+                        </select>
+                        <span asp-validation-for="Status" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+
+            @await Html.PartialAsync("/Areas/Admin/Views/Shared/Form/_FormWithSave.cshtml")
+
+        </form>
+    </div>
+</section>
